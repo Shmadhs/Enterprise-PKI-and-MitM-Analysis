@@ -90,7 +90,7 @@ openssl pkcs12 -export -inkey client/client.key -in client/client.crt -out clien
 
 **Validation:** Security configurations were audited using `sslscan`.
 
-![PKI Hierarchy Proof](images/placeholder1.png) ![Certificate Viewer](cert-viewer.png) ---
+![PKI Hierarchy Proof](sslscan-results.png)) ![Certificate Viewer](cert-viewer.png) ---
 
 
 

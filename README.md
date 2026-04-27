@@ -110,7 +110,7 @@ To highlight the vulnerabilities of local area networks lacking proper security 
 
 
 
-![Ettercap ARP Poisoning](ent.png) ![SET Credential Harvesting](images/placeholder4.png) ---
+![Ettercap ARP Poisoning](ent.png) ![SET Credential Harvesting](harv.png) ---
 
 
 

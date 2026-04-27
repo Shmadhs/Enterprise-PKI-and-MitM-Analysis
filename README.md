@@ -64,7 +64,71 @@ SSLCACertificateFile    /home/kali/my_pki/interCA/chain.crt
 SSLVerifyClient require 
 SSLVerifyDepth  2
 ```
+```bash
 
+# Generate Client User key & CSR
+
+openssl genrsa -out client/client.key 4096 
+
+openssl req -new -key client/client.key -out client/client.csr -subj "/C=GR/O=MyLab/CN=ClientUser" 
+
+
+
+# Sign the Client CSR with the Intermediate CA
+
+openssl x509 -req -in client/client.csr -CA interCA/interCA.crt -CAkey interCA/interCA.key -CAcreateserial -out client/client.crt -days 365 -sha256 
+
+
+
+# Export to .p12 format for browser import
+
+openssl pkcs12 -export -inkey client/client.key -in client/client.crt -out client/client.p12
+
+```
+
+
+
+**Validation:** Security configurations were audited using `sslscan`.
+
+![PKI Hierarchy Proof](images/placeholder1.png) ![Certificate Viewer](images/placeholder2.png) ---
+
+
+
+## Part 2: Offensive Simulation (Red Team)
+
+
+
+### Man-in-the-Middle (MitM) & Credential Harvesting
+
+To highlight the vulnerabilities of local area networks lacking proper security controls, a targeted MitM attack was executed against a simulated victim.
+
+
+
+1. **Social Engineering:** Utilized the **Social-Engineer Toolkit (SET)** (Credential Harvester -> Site Cloner) to clone the Google login page.
+
+2. **Traffic Interception:** Launched **Ettercap** to perform ARP Poisoning, successfully intercepting and routing the victim's traffic through the attacker's machine.
+
+
+
+![Ettercap ARP Poisoning](images/placeholder3.png) ![SET Credential Harvesting](images/placeholder4.png) ---
+
+
+
+## Part 3: Threat Mitigation & Incident Response
+
+
+
+The offensive simulation demonstrated the ease of intercepting local traffic when Layer 2 security is neglected. The following protocols are recommended to mitigate such vectors:
+
+
+
+* **HTTP Strict Transport Security (HSTS):** Enforcing HSTS on the server side ensures browsers exclusively connect via encrypted HTTPS, nullifying the effectiveness of unencrypted cloned HTTP pages used in the attack.
+
+* **Dynamic ARP Inspection (DAI):** Activating DAI on enterprise network switches prevents ARP Spoofing by validating ARP packets and dropping malicious MAC-to-IP binding attempts.
+
+* **Encrypted Tunnels (VPNs):** End-user implementation of Virtual Private Networks (VPNs) creates an encrypted tunnel, rendering intercepted data illegible to attackers during a MitM scenario.
+
+* **Security Awareness:** The cloned login page lacked a valid SSL/TLS certificate (missing the padlock/marked as "Not Secure"). Continuous user training on URL verification remains the first line of defense against social engineering.
 
 
 

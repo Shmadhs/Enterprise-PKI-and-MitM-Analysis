@@ -22,9 +22,3 @@ cd my_pki
 # Generate Root CA private key & self-signed certificate
 openssl genrsa -aes256 -out rootCA/rootCA.key 4096 
 openssl req -x509 -new -nodes -key rootCA/rootCA.key -sha256 -days 3650 -out rootCA/rootCA.crt -subj "/C=GR/O=MyLab/CN=RootCA"
-
-
-
-
-
-
